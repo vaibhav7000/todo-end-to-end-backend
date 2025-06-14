@@ -1,7 +1,6 @@
-# Simple express demo
+# Todo application backend server using express
 
-> Express: fast, unopinionated, minimalist web framework for Node.js
-
-This project shows a simple express server serving a single HTML page and using `express.static` to serve static files.
-
-Check out the [express documentation](https://expressjs.com/) for more information.
+A user can do the following things with the backend application
+- add a new todo (post request) 
+- get all the todos (get request)
+- mark the todo as complete (put request)
