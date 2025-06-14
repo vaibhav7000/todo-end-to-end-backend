@@ -9,7 +9,7 @@ function todoSchemaPostCheck(req, res, next) {
     })
 
     if(!result.success) {
-        req.status(411).json({
+        res.status(411).json({
             msg: "Something up with the inputs",
             issuses: result.error.issues,
         })
@@ -36,4 +36,9 @@ function todoSchemaPutCheck(req, res, next) {
     }
 
     next(); // update the existing todo with that id to be mark as completed
+}
+
+module.exports = {
+    todoSchemaPostCheck,
+    todoSchemaPutCheck
 }

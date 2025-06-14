@@ -2,16 +2,19 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const { connection } = require("./src/db/db.js");
-const dbURl = "mongodb+srv://vc160222:vc160222@cluster0.og2rnih.mongodb.net/";
+const databaseName = "todo-end-to-end"
+const dbURl = `mongodb+srv://vc160222:vc160222@cluster0.og2rnih.mongodb.net/${databaseName}`;
+const todoRouter = require("./src/routes/todoRouteHandler.js");
 
 app.use(express.json()); // middleware that is used parse the json data present in the body of the request. if the body of the request does not contains valid json format data it will throw error, since this written at the top and does not contains any route this middleware will be called for all the request coming to the server.
 
-
+app.use("/todos", todoRouter);
 
 
 // this middle-ware is called global catch that catches the error for all the backend application
 app.use(function(err, req, res, next) {
   if(err) {
+    console.log(err);
     res.status(500).json({
       msg: "Internal server error"
     })
@@ -34,7 +37,6 @@ app.listen(port, async function() {
   try {
     // calling the connection request to the database
       const response = await connection(dbURl);
-      console.log(response);
       console.log("connection is done with the database");
   } catch(err) {
     // if the connection fails => exit the node process
@@ -48,3 +50,5 @@ app.listen(port, async function() {
 // package.json includes all the depenedencies list that is used in the application and => using the npm install or npm i all the dependencies are bring into the system through the internet
 
 // When creating the backend application we have to do input-validation on the data that user has sent for this we will use zod and will create types / schema / input-validator for the incoming data
+
+// MongoDB provides the "url" that points to a machine ( in which there will be cluster that will be alloted to us ) that has implemented noSQL database, we only provide name of that database to mongoDB. we can create as many as database in that machine. In database we create collections and in collections the data gets stored in the JSON format
