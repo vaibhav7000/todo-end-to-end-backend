@@ -1,9 +1,10 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const { connection } = require("./src/db/db.js");
+const dbURl = "mongodb+srv://vc160222:vc160222@cluster0.og2rnih.mongodb.net/";
 
 app.use(express.json()); // middleware that is used parse the json data present in the body of the request. if the body of the request does not contains valid json format data it will throw error, since this written at the top and does not contains any route this middleware will be called for all the request coming to the server.
-
 
 
 
@@ -28,8 +29,19 @@ app.use(function(req, res, next) {
 })
 
 
-app.listen(port, function() {
+app.listen(port, async function() {
   console.log("server started")
+  try {
+    // calling the connection request to the database
+      const response = await connection(dbURl);
+      console.log(response);
+      console.log("connection is done with the database");
+  } catch(err) {
+    // if the connection fails => exit the node process
+    // for me 1 status code means db connection fails, this we can view inside the terminal
+    console.log("connection fails with the database");
+    process.exit(1);
+  }
 })
 
 
