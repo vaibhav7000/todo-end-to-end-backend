@@ -32,19 +32,24 @@ app.use(function(req, res, next) {
 })
 
 
-app.listen(port, async function() {
-  console.log("server started")
+async function main() {
   try {
-    // calling the connection request to the database
-      const response = await connection(dbURl);
-      console.log("connection is done with the database");
+    const response = await connection(dbURl);
+    console.log("connection is done with the database");
+
+    app.listen(port, function() {
+      console.log("server is started");
+    })
   } catch(err) {
     // if the connection fails => exit the node process
     // for me 1 status code means db connection fails, this we can view inside the terminal
     console.log("connection fails with the database");
     process.exit(1);
   }
-})
+}
+
+main();
+
 
 
 // package.json includes all the depenedencies list that is used in the application and => using the npm install or npm i all the dependencies are bring into the system through the internet
