@@ -1,10 +1,25 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const cors = require("cors");
 const { connection } = require("./src/db/db.js");
 const databaseName = "todo-end-to-end"
 const dbURl = `mongodb+srv://vc160222:vc160222@cluster0.og2rnih.mongodb.net/${databaseName}`;
 const todoRouter = require("./src/routes/todoRouteHandler.js");
+let requestCount = 0;
+
+
+// cors will now as added as a middleware that will add the lovely things that browser so that it does not cause the CORS error, this can be implemented for specific routes or doamin too that will be mention to course
+app.use(cors({
+  origin: "http://localhost:5173"
+}))
+
+// this is added because of tesing of the CORS error
+app.use(function(req, res, next) {
+  requestCount++;
+  console.log(requestCount);
+  next();
+})
 
 app.use(express.json()); // middleware that is used parse the json data present in the body of the request. if the body of the request does not contains valid json format data it will throw error, since this written at the top and does not contains any route this middleware will be called for all the request coming to the server.
 
