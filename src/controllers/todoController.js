@@ -84,9 +84,26 @@ async function updateTodoById(req, res, next) {
     }
 }
 
+async function getSpecificTodoDetails(req, res, next) {
+    const title = req.query.title;
+
+    try {
+        const response = await Todo.find({
+            title
+        })
+
+        res.status(200).json({
+            result: response
+        })
+    } catch (error) {
+        next(err);
+    }
+}
+
 
 module.exports = {
-    addTodoToDB, getAllTodos, updateTodoById
+    addTodoToDB, getAllTodos, updateTodoById, getSpecificTodoDetails
 }
 
 // In mongoDB the documents are stored with _id as uniquer identifier
+// there are two types of parameters present in http server 1. route-parameters (part of the url and used as : in the url ) 2. Query-parameters (sended using  ?a=10&b=20)
